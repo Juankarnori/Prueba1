@@ -6,9 +6,7 @@ import { AuthLayout } from '@/components/layouts'
 import { Box, Button, Chip, Divider, Grid, Link, TextField, Typography } from '@mui/material'
 import { useForm } from "react-hook-form";
 import { validations } from "@/utils";
-import { esp32Api } from "@/api";
 import { ErrorOutline } from "@mui/icons-material";
-import { AuthContext } from "@/context";
 import { useRouter } from "next/router";
 
 type FormData = {
@@ -57,13 +55,13 @@ const LoginPage = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Typography variant='h1' component='h1'>Iniciar Sesion</Typography>
-                        <Chip 
+                        {/* <Chip 
                             label='No reconocemos ese usuario / contraseña'
                             color="error"
                             icon={ <ErrorOutline /> }
                             className="fadeIn"
                             sx={{ display: showError ? 'flex' : 'none' }}
-                        />
+                        /> */}
                     </Grid>
 
                     <Grid item xs={12}>
