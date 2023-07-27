@@ -2,7 +2,8 @@ import { IEsp32 } from "@/interface";
 import mongoose, { Schema, model, Model } from "mongoose";
 
 const esp32Schema = new Schema({
-    user: { type: String, required: true },
+    chipId: { type: String, required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     led: { type: Number, required: true, default: 0 },
     status: { 
         type: String,

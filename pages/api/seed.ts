@@ -1,5 +1,5 @@
 import { db, seedDatabase } from '@/database'
-import { Esp32 } from '@/models'
+import { Esp32, Perfil, Pill, User } from '@/models'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
@@ -13,8 +13,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 
     await db.connect();
-    await Esp32.deleteMany();
-    await Esp32.insertMany( seedDatabase.initialData.esp32s );
+
+    await User.deleteMany();
+    await User.insertMany( seedDatabase.initialData.users );
+
+    await Pill.deleteMany();
+    await Pill.insertMany( seedDatabase.initialData.pills );
+    
     await db.disconnect();
 
     res.status(200).json({ message: 'Proceso realizaco correctamente' })

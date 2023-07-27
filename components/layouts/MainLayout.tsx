@@ -1,6 +1,6 @@
 import Head from "next/head"
 import { FC, PropsWithChildren } from "react";
-import { Navbar } from "../ui";
+import { Navbar, SideMenu } from "../ui";
 
 interface Props extends PropsWithChildren {
     title: string;
@@ -30,6 +30,8 @@ export const MainLayout:FC<Props> = ({ children, title, pageDescription, imageFu
         <nav>
             <Navbar />
         </nav>
+
+        <SideMenu />
 
         <main style={{
             margin: '80px auto',

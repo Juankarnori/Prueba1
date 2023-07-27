@@ -1,9 +1,12 @@
-export interface IEsp32 {
-    _id: string;
-    user: string;
-    led: number;
-    status: 'ON'|'OFF';
+import { IUser } from "./user";
 
-    createdAt: string;
-    updatedAt: string;
+export interface IEsp32 {
+    _id?    : string;
+    chipId? : string;
+    user?   : IUser | string;
+    led     : number;
+    status  : 'ON'|'OFF';
+
+    createdAt?: string;
+    updatedAt?: string;
 }
