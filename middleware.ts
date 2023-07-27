@@ -8,16 +8,38 @@ import { getToken } from 'next-auth/jwt';
 
   const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-  if ( !session ) {
-    const requestedPage = req.nextUrl.pathname;
-    const url = req.nextUrl.clone();
-    url.pathname = `/auth/login`;
-    url.search = `p=${ requestedPage }`
+  if ( req.nextUrl.pathname.startsWith('/user/perfil') ) {
 
-    return NextResponse.redirect( url );
+    if ( !session ) {
+      const requestedPage = req.nextUrl.pathname;
+      const url = req.nextUrl.clone();
+      url.pathname = `/auth/login`;
+      url.search = `p=${ requestedPage }`
+  
+      return NextResponse.redirect( url );
+    }
+  
+    return NextResponse.next();
+
   }
 
-  return NextResponse.next();
+  if ( req.nextUrl.pathname.startsWith('/auth/login') ) {
+
+    if ( session ) {
+      // const requestedPage = req.nextUrl.search;
+      // console.log(requestedPage);
+      const url = req.nextUrl.clone();
+      url.pathname = `/`;
+      // url.search = `p=${ requestedPage }`
+      url.search = ``
+  
+      return NextResponse.redirect( url );
+    }
+  
+    return NextResponse.next();
+
+  }
+
 
   //  const previousPage = req.nextUrl.pathname;
   
@@ -38,6 +60,7 @@ import { getToken } from 'next-auth/jwt';
   
  export const config = {
    matcher: [
-     '/user/:path*'
+     '/user/:path*',
+     '/auth/:path*'
    ],
  };
