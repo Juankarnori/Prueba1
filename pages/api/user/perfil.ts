@@ -35,7 +35,7 @@ const createPerfil = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
     const { user, nombre = '', apellido = '', ciudad = '', celular = '' } = req.body as { user: IUser, nombre: string, apellido: string, ciudad: string, celular: string }
 
     if ( !user ) {
-        return res.status(200).json({message: 'Debe estar autenticado para hacer esto'});
+        return res.status(401).json({message: 'Debe estar autenticado para hacer esto'});
     }
 
     await db.connect();
@@ -92,7 +92,7 @@ const obtenerPerfil = async(req: NextApiRequest, res: NextApiResponse<Data>) => 
     const userId = usuario?._id
 
     if ( !usuario ) {
-        return res.status(401).json({message: 'No esta autenticado'})
+        return res.status(200).json({message: 'No esta autenticado'})
     }
 
     try {
