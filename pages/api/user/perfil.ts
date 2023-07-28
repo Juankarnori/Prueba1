@@ -33,13 +33,21 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 const createPerfil = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
     
     const { user, nombre = '', apellido = '', ciudad = '', celular = '' } = req.body as { user: IUser, nombre: string, apellido: string, ciudad: string, celular: string }
+    const email = user.email;
 
     if ( !user ) {
         return res.status(401).json({message: 'Debe estar autenticado para hacer esto'});
     }
 
     await db.connect();
-    const perfil = await Perfil.findOne({ user })
+    const usuario = await User.findOne({ email })
+    
+    if ( !usuario ) {
+        return res.status(200).json({ message: 'No existe Usuario' })
+    }
+
+    const { _id } = usuario;
+    const perfil = await Perfil.findOne({ user: _id })
 
     if ( nombre.length < 2 ) {
         return res.status(400).json({
@@ -59,7 +67,7 @@ const createPerfil = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
     }
 
     const newPerfil = new Perfil({
-        user,
+        user: usuario,
         nombre,
         apellido,
         ciudad,

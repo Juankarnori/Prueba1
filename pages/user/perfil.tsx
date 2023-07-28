@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { MainLayout } from '@/components/layouts'
 import { Box, Button, Chip, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { ciudades } from '@/utils'
-import { PerfilContext } from '@/context'
+import { AuthContext, PerfilContext } from '@/context'
 import { IPerfil } from '@/interface'
 import { useForm } from 'react-hook-form'
 import { CheckCircleOutlineOutlined, ErrorOutline } from '@mui/icons-material'
@@ -10,6 +10,7 @@ import { CheckCircleOutlineOutlined, ErrorOutline } from '@mui/icons-material'
 const PerfilPage = () => {
 
     const { createPerfil, isExistPerfil, perfil } = useContext( PerfilContext );
+    const { user } = useContext(AuthContext)
     const [pnombre, setPnombre] = useState('');
     const [papellido, setPapellido] = useState('');
     const [pciudad, setPciudad] = useState(ciudades[0].name);
@@ -35,6 +36,11 @@ const PerfilPage = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     const savePerfil = async( data: IPerfil ) => {
+
+        const body: IPerfil = {
+            ...data,
+            user
+        }
 
         setShowError(false);
         const { hasError, message } = await createPerfil( data );
