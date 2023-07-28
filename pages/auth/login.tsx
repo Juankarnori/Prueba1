@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 // import { GetServerSideProps } from 'next'
 import NextLink from "next/link";
-import { signIn, getSession, getProviders } from 'next-auth/react';
+// import { signIn, getSession, getProviders } from 'next-auth/react';
 import { AuthLayout } from '@/components/layouts'
 import { Box, Button, Chip, Divider, Grid, Link, TextField, Typography } from '@mui/material'
 import { useForm } from "react-hook-form";
 import { validations } from "@/utils";
 import { ErrorOutline } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import { AuthContext } from '@/context';
 
 type FormData = {
     email: string,
@@ -17,34 +18,34 @@ type FormData = {
 const LoginPage = () => {
 
     const router = useRouter();
-    // const { loginUser } = useContext( AuthContext )
+    const { loginUser } = useContext( AuthContext )
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
     const [showError, setShowError] = useState(false);
 
-    const [providers, setProviders] = useState<any>({});
+    // const [providers, setProviders] = useState<any>({});
 
-    useEffect(() => {
-      getProviders().then( prov => {
-        setProviders(prov)
-      })
-    }, [])
+    // useEffect(() => {
+    //   getProviders().then( prov => {
+    //     setProviders(prov)
+    //   })
+    // }, [])
     
 
     const onLoginUser = async( { email, password }: FormData ) => {
 
         setShowError(false);
 
-        // const isValidLogin = await loginUser( email, password );
+        const isValidLogin = await loginUser( email, password );
 
-        // if ( !isValidLogin ) {
-        //     setShowError(true);
-        //     setTimeout(() => { setShowError(false) }, 3000);
-        //     return;
-        // }
+        if ( !isValidLogin ) {
+            setShowError(true);
+            setTimeout(() => { setShowError(false) }, 3000);
+            return;
+        }
 
-        // const destination = router.query.p?.toString() || '/';
-        // router.replace(destination);
-        await signIn('credentials',{ email, password });
+        const destination = router.query.p?.toString() || '/';
+        router.replace(destination);
+        // await signIn('credentials',{ email, password });
 
     }
 
@@ -117,7 +118,7 @@ const LoginPage = () => {
                         </NextLink>
                     </Grid>
 
-                    <Grid item xs={12} display='flex' flexDirection='column' justifyContent='end'>
+                    {/* <Grid item xs={12} display='flex' flexDirection='column' justifyContent='end'>
                         <Divider sx={{ width: '100%', mb: 2 }} />
                         {
                             Object.values( providers ).map(( provider: any ) =>{
@@ -138,7 +139,7 @@ const LoginPage = () => {
                                 )
                             })
                         }
-                    </Grid>
+                    </Grid> */}
 
                 </Grid>
             </Box>

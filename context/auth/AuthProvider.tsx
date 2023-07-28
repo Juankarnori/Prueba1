@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useContext, useEffect, useReducer } from 'react';
 import { AuthContext, authReducer } from './';
-import { useSession, signOut } from "next-auth/react";
+// import { useSession, signOut } from "next-auth/react";
 import { IUser } from '@/interface';
 import { esp32Api } from '@/api';
 import Cookies from 'js-cookie';
@@ -24,18 +24,18 @@ export const AuthProvider:FC<PropsWithChildren> = ({ children }) => {
     const router = useRouter();
     const { checkPerfil } = useContext( PerfilContext );
 
-    const { data, status } = useSession();
-
-    useEffect(() => {
-      if ( status === 'authenticated' ) {
-        dispatch({ type: '[Auth] - Login', payload: data.user as IUser })
-      }
-    }, [status, data])
-    
+    // const { data, status } = useSession();
 
     // useEffect(() => {
-    //     checkToken();
-    // }, [])
+    //   if ( status === 'authenticated' ) {
+    //     dispatch({ type: '[Auth] - Login', payload: data.user as IUser })
+    //   }
+    // }, [status, data])
+    
+
+    useEffect(() => {
+        checkToken();
+    }, [])
     
     const checkToken = async() => {
 
@@ -93,9 +93,9 @@ export const AuthProvider:FC<PropsWithChildren> = ({ children }) => {
     }
 
     const logout = () => {
-        // Cookies.remove('token');
-        // router.reload();
-        signOut();
+        Cookies.remove('token');
+        router.reload();
+        // signOut();
     }
 
     return (
