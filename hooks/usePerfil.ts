@@ -1,15 +1,15 @@
-import { IEsp32 } from "@/interface"
+import { IPerfil } from "@/interface"
 import useSWR, { SWRConfiguration } from "swr"
 
 // const fetcher = (...args: [key: string]) => fetch(...args).then(res => res.json())
 
-export const useEsp32 = (url: string, config: SWRConfiguration = {} ) => {
+export const usePerfil = (url: string, config: SWRConfiguration = {} ) => {
 
     // const { data, error, isLoading } = useSWR<IEsp32[]>(`/api${ url }`, fetcher, config)
-    const { data, error, isLoading } = useSWR<IEsp32[]>(`/api${ url }`, config)
+    const { data, error, isLoading } = useSWR<IPerfil>(`/api${ url }`, config)
 
     return {
-        data,
+        Perfil: data,
         isLoading,
         isError: error
     }
